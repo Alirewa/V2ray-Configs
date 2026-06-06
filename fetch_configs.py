@@ -6,6 +6,8 @@ Fetches vmess/vless/ss/trojan configs from:
 Deduplicates and writes to config.txt every 15 minutes via GitHub Actions.
 """
 
+import base64
+import json
 import re
 import requests
 from bs4 import BeautifulSoup
@@ -280,6 +282,50 @@ def _is_valid(cfg: str) -> bool:
     return any(cfg.startswith(s) for s in SCHEMES) and len(cfg) > 20
 
 
+def _extract_uuid(cfg: str) -> str | None:
+    """
+    Extract the unique identifier from a config string:
+      vless / trojan  → the token before the first '@'
+      vmess           → the "id" field inside the base64-decoded JSON
+      ss              → method:password (decoded if base64-encoded)
+    Returns None when extraction fails.
+    """
+    try:
+        scheme, rest = cfg.split("://", 1)
+
+        if scheme in ("vless", "trojan"):
+            # vless://UUID@host:port?...
+            uid = rest.split("@")[0].strip()
+            return uid.lower() if uid else None
+
+        elif scheme == "vmess":
+            # vmess://base64(JSON)
+            b64 = rest.split("#")[0].strip()
+            # pad to multiple of 4
+            b64 += "=" * (-len(b64) % 4)
+            data = json.loads(base64.b64decode(b64).decode("utf-8", errors="ignore"))
+            uid = str(data.get("id", "")).strip()
+            return uid.lower() if uid else None
+
+        elif scheme == "ss":
+            # two forms:
+            #   ss://BASE64(method:password)@host:port
+            #   ss://method:password@host:port   (SIP002)
+            user_info = rest.split("@")[0].strip()
+            # try base64 decode
+            try:
+                padded = user_info + "=" * (-len(user_info) % 4)
+                decoded = base64.b64decode(padded).decode("utf-8", errors="ignore")
+                if ":" in decoded:
+                    return decoded.lower()
+            except Exception:
+                pass
+            return user_info.lower() if ":" in user_info else None
+
+    except Exception:
+        return None
+
+
 # ── Scrapers ──────────────────────────────────────────────────────────────────
 
 def scrape_telegram(url: str) -> list[str]:
@@ -357,13 +403,28 @@ def main():
             label = "/".join(url.split("/")[3:5])
             print(f"  ✓ {label:35s} {len(found):>5} configs")
 
-    # ── Deduplicate (preserve first-seen order) ────────────────────────────────
-    seen: set[str] = set()
-    unique: list[str] = []
+    # ── Deduplicate ───────────────────────────────────────────────────────────
+    # Pass 1: exact string dedup (preserves first-seen order)
+    seen_raw: set[str] = set()
+    after_raw: list[str] = []
     for cfg in all_configs:
-        if cfg not in seen:
-            seen.add(cfg)
-            unique.append(cfg)
+        if cfg not in seen_raw:
+            seen_raw.add(cfg)
+            after_raw.append(cfg)
+
+    # Pass 2: UUID / identifier dedup
+    # If two configs share the same UUID, keep only the first one.
+    seen_uuid: set[str] = set()
+    unique: list[str] = []
+    uuid_dupes = 0
+    for cfg in after_raw:
+        uid = _extract_uuid(cfg)
+        if uid:
+            if uid in seen_uuid:
+                uuid_dupes += 1
+                continue          # duplicate UUID → skip
+            seen_uuid.add(uid)
+        unique.append(cfg)
 
     # ── Timestamp ─────────────────────────────────────────────────────────────
     now = jdatetime.datetime.now(pytz.timezone("Asia/Tehran"))
@@ -380,13 +441,17 @@ def main():
     with open("config.txt", "w", encoding="utf-8") as f:
         f.write(header)
         for i, cfg in enumerate(unique, start=1):
-            label = f"#{i}-{date_str}"
+            label = f"#@Alirewa - #{i}"
             f.write(f"{cfg}{label}\n")
 
     print(f"\n{'='*55}")
     print(f" ✅ Done!")
-    print(f"    Telegram  : {tg_total:>6} raw  →  after dedup")
-    print(f"    GitHub    : {gh_total:>6} raw")
+    print(f"    Telegram      : {tg_total:>6} raw")
+    print(f"    GitHub        : {gh_total:>6} raw")
+    print(f"    Total raw     : {len(all_configs):>6}")
+    print(f"    After str-dedup: {len(after_raw):>5}")
+    print(f"    UUID dupes    : {uuid_dupes:>6}")
+    print(f"    Final unique  : {len(unique):>6}  → saved to config.txt")
     print(f"    Total raw : {len(all_configs):>6}")
     print(f"    Unique    : {len(unique):>6}  →  saved to config.txt")
     print(f"{'='*55}\n")
