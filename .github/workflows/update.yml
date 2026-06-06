@@ -14,18 +14,19 @@ jobs:
       contents: write
 
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       PYTHONUNBUFFERED: "1"
+      # Force Node.js 24 for all JS-based actions (eliminates Node20 deprecation warning)
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
     steps:
       - name: Checkout latest main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           ref: main
           fetch-depth: 1
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.6.0
         with:
           python-version: "3.11"
           cache: "pip"
@@ -47,15 +48,15 @@ jobs:
 
           # Nothing changed → skip commit entirely
           if git diff --cached --quiet; then
-            echo "⏭ No changes — skipping commit."
+            echo "No changes — skipping commit."
             exit 0
           fi
 
           git commit -m "🔄 auto-update configs"
 
-          # Push — if rejected (another run beat us), rebase with our version winning
+          # Push — if rejected (race condition), rebase with our version winning
           git push origin main || {
-            echo "⚠ Push rejected — rebasing with our config.txt..."
+            echo "Push rejected — rebasing..."
             git fetch origin main
             git rebase -X theirs origin/main
             git push origin main

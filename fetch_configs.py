@@ -218,49 +218,38 @@ TELEGRAM_SOURCES = [
 # ── GitHub Raw Sources (plain-text subscription files, one config per line) ───
 
 GITHUB_SOURCES = [
-    # barry-far — large daily aggregator
-    "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub1.txt",
-    "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub2.txt",
-    "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub3.txt",
-    "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub4.txt",
-    "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub5.txt",
-    "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub6.txt",
-    "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub7.txt",
-    "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub8.txt",
-    # mahdibland — confirmed working paths
+    # mahdibland — V2RayAggregator (verified 200)
     "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/splitted/vmess.txt",
     "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/splitted/trojan.txt",
-    # freefq / free
-    "https://raw.githubusercontent.com/freefq/free/master/v2",
-    # Pawdroid
-    "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub",
-    # peasoft — NoMoreWalls
-    "https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list.txt",
-    # ermaozi
-    "https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/v2ray.txt",
-    # Surfboardv2ray
-    "https://raw.githubusercontent.com/Surfboardv2ray/v2ray-worker-sub/master/Eternity",
-    # Barabama
-    "https://raw.githubusercontent.com/Barabama/FreeNodes/master/nodes/merged.txt",
-    # resasanian — Mirza
-    "https://raw.githubusercontent.com/resasanian/Mirza/main/best",
-    # ALIILAPRO
-    "https://raw.githubusercontent.com/ALIILAPRO/v2rayNG-Config/main/server.txt",
-    # soroushmirzaei — configs collector (correct path)
-    "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/main/channels/protocols/vless",
-    "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/main/channels/protocols/vmess",
-    "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/main/channels/protocols/trojan",
-    "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/main/channels/protocols/shadowsocks",
-    # coldwater — daily configs
-    "https://raw.githubusercontent.com/coldwater-10/V2Hub/main/split/vless",
-    "https://raw.githubusercontent.com/coldwater-10/V2Hub/main/split/vmess",
-    "https://raw.githubusercontent.com/coldwater-10/V2Hub/main/split/trojan",
-    # Epodonios
-    "https://raw.githubusercontent.com/Epodonios/v2ray-configs/main/All_Configs_Sub.txt",
-    # yebekhe — TelegramV2rayCollector
-    "https://raw.githubusercontent.com/yebekhe/TelegramV2rayCollector/main/sub/mix",
-    # mahdibland SplitV2Ray
+    "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/splitted/ss.txt",
+    # mahdibland — ShadowsocksAggregator (verified 200)
     "https://raw.githubusercontent.com/mahdibland/ShadowsocksAggregator/master/Eternity.txt",
+    # Epodonios — v2ray-configs (verified 200)
+    "https://raw.githubusercontent.com/Epodonios/v2ray-configs/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/Epodonios/v2ray-configs/main/Splitted-By-Protocol/vmess.txt",
+    "https://raw.githubusercontent.com/Epodonios/v2ray-configs/main/Splitted-By-Protocol/vless.txt",
+    "https://raw.githubusercontent.com/Epodonios/v2ray-configs/main/Splitted-By-Protocol/trojan.txt",
+    # coldwater-10 — V2Hub (verified 200, case-sensitive path)
+    "https://raw.githubusercontent.com/coldwater-10/V2Hub/main/Split/Normal/vmess",
+    "https://raw.githubusercontent.com/coldwater-10/V2Hub/main/Split/Normal/vless",
+    "https://raw.githubusercontent.com/coldwater-10/V2Hub/main/Split/Normal/trojan",
+    "https://raw.githubusercontent.com/coldwater-10/V2Hub/main/Split/Normal/shadowsocks",
+    # freefq (verified 200)
+    "https://raw.githubusercontent.com/freefq/free/master/v2",
+    # Pawdroid (verified 200)
+    "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub",
+    # peasoft — NoMoreWalls (verified 200)
+    "https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list.txt",
+    # ermaozi (verified 200)
+    "https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/v2ray.txt",
+    # Surfboardv2ray (verified 200)
+    "https://raw.githubusercontent.com/Surfboardv2ray/v2ray-worker-sub/master/Eternity",
+    # Barabama (verified 200)
+    "https://raw.githubusercontent.com/Barabama/FreeNodes/master/nodes/merged.txt",
+    # resasanian — Mirza (verified 200)
+    "https://raw.githubusercontent.com/resasanian/Mirza/main/best",
+    # ALIILAPRO (verified 200)
+    "https://raw.githubusercontent.com/ALIILAPRO/v2rayNG-Config/main/server.txt",
 ]
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
