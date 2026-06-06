@@ -1,9 +1,6 @@
 name: Fetch V2Ray Configs
 
 on:
-  push:
-    branches:
-      - main
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
@@ -17,13 +14,17 @@ jobs:
       contents: write
 
     env:
-      # Opt into Node.js 24 for all JS actions (avoids deprecation errors after June 2026)
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       PYTHONUNBUFFERED: "1"
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Full history needed so push doesn't get rejected
+          fetch-depth: 0
+          # Always get the latest state from remote before we do anything
+          ref: main
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -40,9 +41,20 @@ jobs:
         run: python fetch_configs.py
 
       - name: Commit and push updated configs
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "🔄 auto-update configs"
-          file_pattern: config.txt
-          commit_user_name: "github-actions[bot]"
-          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add config.txt
+
+          # Nothing changed → skip
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "🔄 auto-update configs"
+
+          # Pull remote changes (rebase) then push — avoids non-fast-forward errors
+          git pull --rebase origin main
+          git push origin main
