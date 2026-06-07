@@ -521,7 +521,7 @@ def main():
     print(f"    After str-dedup: {len(after_raw):>5}")
     print(f"    UUID dupes     : {uuid_dupes:>6}")
     print(f"    Final (capped) : {len(unique):>6}  -> config.txt")
-    print(f"    sub1/2/3       : 100 each  -> healthiest {len(top300)}")
+    print(f"    sub1/2/3       : 100 each  -> quality-ranked")
     print(f"{'='*55}\n")
 
 
