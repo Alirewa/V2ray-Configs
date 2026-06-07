@@ -278,6 +278,58 @@ def _is_valid(cfg: str) -> bool:
     return any(cfg.startswith(s) for s in SCHEMES) and len(cfg) > 20
 
 
+_IP_RE = re.compile(r"@(\d{1,3}\.){3}\d{1,3}:")
+
+def _health_score(cfg: str) -> int:
+    """
+    Heuristic health score — higher = more likely to be a stable/working server.
+    No actual connectivity test; purely structural signals.
+
+    Signals (additive):
+      +4  security=reality    (most modern, hard to block)
+      +3  security=tls        (encrypted transport)
+      +3  trojan://           (protocol inherently uses TLS)
+      +2  port 443 or 8443    (standard TLS ports, rarely blocked)
+      +2  has domain name     (more stable than raw IP)
+      +1  port 80 or 8080     (common, but unencrypted)
+      +1  has sni= or host=   (proper SNI configured)
+      +1  has path= or ws     (WebSocket / path configured)
+    """
+    score = 0
+    low = cfg.lower()
+
+    if cfg.startswith("trojan://"):
+        score += 3
+
+    if "security=reality" in low:
+        score += 4
+    elif "security=tls" in low:
+        score += 3
+
+    # Extract port
+    try:
+        after_at = cfg.split("@", 1)[1] if "@" in cfg else cfg
+        port_part = after_at.split("?")[0].split("/")[0]
+        port = int(port_part.rsplit(":", 1)[-1])
+        if port in (443, 8443):
+            score += 2
+        elif port in (80, 8080, 2052, 2053, 2083, 2087, 2096):
+            score += 1
+    except Exception:
+        pass
+
+    # Domain name vs raw IP
+    if not _IP_RE.search(cfg):
+        score += 2
+
+    if "sni=" in low or "host=" in low:
+        score += 1
+    if "path=" in low or "type=ws" in low:
+        score += 1
+
+    return score
+
+
 def _extract_uuid(cfg: str) -> str | None:
     """
     Extract the unique identifier from a config string:
@@ -425,26 +477,36 @@ def main():
     # ── Apply hard cap ────────────────────────────────────────────────────────
     if len(unique) > MAX_CONFIGS:
         unique = unique[:MAX_CONFIGS]
-        print(f"  (capped at {MAX_CONFIGS})")
 
-    # ── Write pure raw output (no comment headers — bot/client compatible) ────
+    # ── Score and sort for sub files (top-quality subset) ─────────────────────
+    scored = sorted(unique, key=_health_score, reverse=True)
+    top300 = scored[:300]   # pool for the three sub files
+
+    # ── Write main config.txt (raw, no comments) ──────────────────────────────
     with open("config.txt", "w", encoding="utf-8") as f:
         for i, cfg in enumerate(unique, start=1):
-            label = f"#@Alirewa - #{i}"
-            f.write(f"{cfg}{label}\n")
+            f.write(f"{cfg}#@Alirewa - #{i}\n")
+
+    # ── Write sub1 / sub2 / sub3 (100 configs each, healthiest first) ─────────
+    for idx, (fname, pool) in enumerate([
+        ("sub1.txt", top300[0:100]),
+        ("sub2.txt", top300[100:200]),
+        ("sub3.txt", top300[200:300]),
+    ], start=1):
+        with open(fname, "w", encoding="utf-8") as f:
+            for i, cfg in enumerate(pool, start=1):
+                f.write(f"{cfg}#@Alirewa - Sub{idx} #{i}\n")
 
     now = jdatetime.datetime.now(pytz.timezone("Asia/Tehran"))
     print(f"\n{'='*55}")
-    print(f" ✅ Done!  [{now.strftime('%Y/%m/%d %H:%M')}]")
+    print(f" Done!  [{now.strftime('%Y/%m/%d %H:%M')}]")
     print(f"    Telegram       : {tg_total:>6} raw")
     print(f"    GitHub         : {gh_total:>6} raw")
     print(f"    Total raw      : {len(all_configs):>6}")
     print(f"    After str-dedup: {len(after_raw):>5}")
     print(f"    UUID dupes     : {uuid_dupes:>6}")
-    print(f"    Final (capped) : {len(unique):>6}  → config.txt")
-    print(f"{'='*55}\n")
-    print(f"    Total raw : {len(all_configs):>6}")
-    print(f"    Unique    : {len(unique):>6}  →  saved to config.txt")
+    print(f"    Final (capped) : {len(unique):>6}  -> config.txt")
+    print(f"    sub1/2/3       : 100 each  -> healthiest {len(top300)}")
     print(f"{'='*55}\n")
 
 

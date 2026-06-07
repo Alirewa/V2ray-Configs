@@ -44,7 +44,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add config.txt
+          git add config.txt sub1.txt sub2.txt sub3.txt
 
           if git diff --cached --quiet; then
             echo "No changes — skipping commit."
