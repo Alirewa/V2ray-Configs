@@ -349,7 +349,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpWcjA2clVfdjF2RlBZZVhxOXpic0FB@217.138.207.10
 trojan://dh-Ws-YoJIgTYLZ-A5VljeduVse-vhDl7Q@185.137.157.145:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0#@Alirewa-349
 vless://2e622f08-444a-46d0-8dac-6f9709f4d172@check-host.net:8880?path=%2F&security=none&encryption=none&host=sni.abilim.info&type=httpupgrade#@Alirewa-350
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpJWUo1SVMyb1NBczkza0dU@4.231.225.39:443#@Alirewa-351
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpzVFllWUJBOXV6L2JYTkpNY1NnZ1RFWEwxdVBkM3JVMmtLcjJZTW9qQlg4PQ@e3.cover20.ir:56985?type=tcp#@Alirewa-352
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpWWU5Qc0RvVWU1eTBMVC9YRHNMK3VvdjhFV0dER3VkUHcrc0d3R2dpenNZPQ@e3.cover20.ir:56985?type=tcp#@Alirewa-352
 vless://1b73f053-2709-4698-bbec-cb20e8a5f288@gr4.levikogjgfdd.ir:3031?security=none&encryption=none&host=play.google.com&headerType=http&type=tcp#@Alirewa-353
 vless://de64aaa6-a0ea-48d0-853b-1c3cbc7fb42c@141.98.118.70:443?mode=auto&security=reality&encryption=none&pbk=LjEQR0FEtsOs5eQoVsZgJX5ZI0yeadUKTCLoGD641RQ&type=xhttp&sni=www.google.com&sid=44#@Alirewa-354
 vless://4480161e-2c59-4d37-8736-675c9af32bf1@72.56.92.177:40443?security=reality&encryption=none&pbk=fWzCKXwvMXaacsl1DdFb1vKQ9l9cTK1G7udqmaYHL0Y&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=01d1bf2d4755d40c#@Alirewa-355
