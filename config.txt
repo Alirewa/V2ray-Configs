@@ -10,7 +10,7 @@ vmess://eyJhZGQiOiJqb2luLm1lbG9keWZyZWVuZXQyLnNob3AiLCJhaWQiOiIwIiwiYWxwbiI6Imgy
 vmess://eyJhZGQiOiJzaGFoaW5uZXQtZnJlZW5ldGNkbi5tZWxvZHlzaG9wb25lMi5pciIsImFpZCI6IjAiLCJhbHBuIjoiIiwiZnAiOiIiLCJob3N0Ijoic29nLnNoYWhpbm5ldC5zaG9wIiwiaWQiOiI5NjU4ODkxMi0zYmNiLTQ5MWMtOGNlMy03YTk2NWJiZWMwN2YiLCJuZXQiOiJ3cyIsInBhdGgiOiIvIiwicG9ydCI6IjgwODAiLCJwcyI6IkBDb25maWdmb3JWUE4iLCJzY3kiOiJhdXRvIiwic25pIjoiIiwidGxzIjoiIiwidHlwZSI6IiIsInYiOiIyIn0=#@Alirewa-10
 trojan://nzrc4ma4087c1ukr@188.114.96.1:2083?path=%2FWWEiIlL225IiiILl&security=tls&insecure=0&host=dl1.rahetejarat.com&fp=chrome&type=httpupgrade&allowInsecure=0&sni=dl2.rahetejarat.com#@Alirewa-11
 vless://2fad05d3-9fab-45a0-addc-3fc229673c5e@172.67.158.89:8443?mode=auto&path=%2Fdawdawdqwrrtt&security=tls&encryption=none&extra=%7B%22mode%22%3A%22auto%22%2C%22xPaddingBytes%22%3A%22100-1000%22%7D&insecure=0&host=dl1.rahetejarat.com&fp=chrome&type=xhttp&allowInsecure=0&sni=dl1.rahetejarat.com#@Alirewa-12
-vless://e4514801-0d5a-42ba-869f-39bd605aef9e@13.37.101.74:22223?encryption=none&security=none&type=tcp#@Alirewa-13
+vless://e4514801-0d5a-42ba-869f-39bd605aef9e@13.36.145.160:22223?encryption=none&security=none&type=tcp#@Alirewa-13
 vless://f081b5e2-f3a0-4ef5-833b-1ea59e0797b6@89.106.206.57:443?path=%2F6d2fed050b30&security=tls&encryption=none&insecure=0&host=fcs013.getdcz.me&fp=chrome&type=ws&allowInsecure=0&sni=fcs013.getdcz.me#@Alirewa-14
 vless://0a2dde28-70da-4863-a06f-35d007d94d35@202.155.11.249:443?path=%2Fcdn%2Fv3%2Flive&security=tls&encryption=none&insecure=0&host=cf2.rumedia-cdn.com&fp=chrome&type=ws&allowInsecure=0&sni=cf2.rumedia-cdn.com#@Alirewa-15
 vless://419f25c1-bc35-412e-93fb-258efee859b5@ru2.oshost.network:80?path=%2Fapi%2Fv2%2Fstream&security=none&encryption=none&type=ws#@Alirewa-16
